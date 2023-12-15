@@ -1,27 +1,204 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+ 
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+ 
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+ 
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+ 
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+ 
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+ 
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+ 
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+ 
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+ 
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+ 
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+ 
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+ 
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground m-0;
+  }
+}
+@layer components{
+  .auth-form{
+    @apply max-w-md p-4 lg:p-6 shadow-xl rounded-xl bg-white z-10 w-full border border-gray-100
+  } 
+  .form-input{
+    @apply outline-none bg-transparent py-1.5 text-base placeholder:text-gray-500 text-gray-900 w-full border-b-2 border-b-gray-400 hover:border-b-gray-600 focus:border-b-greenshade transition-all
+  }
+  .site-header{
+    @apply h-14 w-full flex items-center justify-between px-4 lg:px-8 shadow-md fixed top-0 left-0
+  }
+  .btn{
+    @apply border-none outline-none shadow-md bg-greenshade text-white py-2.5 rounded-sm hover:bg-greenshade/80
+  }
+  .btn2{
+    @apply outline-none bg-transparent text-black border-2 border-gray-200 py-2.5 rounded-sm hover:bg-gray-100 text-xs md:text-sm
+  }
+  .btn3{
+    @apply outline-none bg-black text-white py-2 rounded-sm hover:bg-black/75 text-sm
+  }
+  .container{
+    @apply w-full flex mx-auto max-w-screen-2xl md:gap-5 lg:gap-12 px-4
+  }
+  .checkbox{
+    @apply text-blue-600 bg-gray-100 border-gray-100 border rounded-md cursor-pointer focus:ring-blue-500 focus:ring-2
+  }
+  .input-2{
+    @apply border outline-0 border-gray-300 focus:border-2 py-2 px-2 bg-transparent rounded-md placeholder:text-gray-600 text-black text-sm font-medium
+  }
+  .board-input{
+    @apply md:text-lg text-base  bg-transparent w-min rounded font-bold md:tracking-wide outline-none border-none placeholder:text-base placeholder:text-gray-300 max-w-max 
+  }
+  .card{
+    @apply bg-white/80 p-4 rounded-md shadow-md w-72 md:w-full md:max-w-xs z-10
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.custom-loader1 {
+  width:50px;
+  height:24px;
+  background: 
+    radial-gradient(circle closest-side,#86A789 90%,#0000) 0%   50%,
+    radial-gradient(circle closest-side,#99B080 90%,#0000) 50%  50%,
+    radial-gradient(circle closest-side,#86A789 90%,#0000) 100% 50%;
+  background-size:calc(100%/3) 12px;
+  background-repeat: no-repeat;
+  animation:d3 1s infinite linear;
+  z-index: 10;
+}
+@keyframes d3 {
+    20%{background-position:0%   0%, 50%  50%,100%  50%}
+    40%{background-position:0% 100%, 50%   0%,100%  50%}
+    60%{background-position:0%  50%, 50% 100%,100%   0%}
+    80%{background-position:0%  50%, 50%  50%,100% 100%}
+}
+.anime-enter{
+  animation: enter 0.5s 1 linear;
+  animation-delay: 500ms;
+}
+.anime-enter1{
+  animation: enter1 0.5s 1 linear;
+  animation-delay: 1s;
+}
+.custom-fade-in{
+  animation: fade-in 0.5s 1 linear;
+}
+
+@keyframes fade-in{
+  0%{
+    opacity: 0.4;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+@keyframes enter{
+  0%{
+    opacity: 0.4;
+    transform: translateX(40px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+@keyframes enter1{
+  0%{
+    transform: translateX(10px);
+  }
+  100%{
+    transform: translateX(0px);
+  }
+}
+ ::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-horizontal {
+  height: 8px; /* Adjust the height as needed */
+  border-radius: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+ 
+/* Handle */
+ ::-webkit-scrollbar-thumb {
+  background: #86A789; 
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Handle on hover */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+   width: 6px;
+   height: 4px;
+ }
+  
+}
+ ::-webkit-scrollbar-thumb:hover {
+  background: #99B080; 
+}
+.custom-max-height{
+  overflow-y: scroll;
+  max-height: calc(100vh - 240px);
 }

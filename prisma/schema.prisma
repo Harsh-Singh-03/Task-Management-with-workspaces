@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  email        String         @unique
+  name         String
+  password     String?
+  provider     String?
+  Organization Organization[] @relation(fields: [orgsId], references: [id])
+  orgsId       String[]       @db.ObjectId
+}
+
+model Organization {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  adminId   String   @db.ObjectId // relation scalar field  (used in the `@relation` attribute above)
+  membersId String[] @db.ObjectId
+  members   User[]   @relation(fields: [membersId], references: [id])
+}
+
+model Board {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  orgId         String   @db.ObjectId
+  title         String
+  imageId       String
+  imageThumbUrl String
+  imageFullUrl  String
+  imageUserName String
+  imageLinkHTML String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  List          List[]
+}
+
+model List {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  order     Int
+  boardId   String   @db.ObjectId
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  cards     Card[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([boardId])
+}
+
+model Card {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  order       Int
+  description String?
+  label       String?
+  labelColor  String?
+  listId      String   @db.ObjectId
+  list        List     @relation(fields: [listId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([listId])
+}
+
+enum ACTION {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+enum ENTITY_TYPE {
+  BOARD
+  LIST
+  CARD
+}
+
+model Audit {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  orgId       String
+  action      ACTION
+  entityId    String
+  entityType  ENTITY_TYPE
+  entityTitle String
+  userId      String
+  userName    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
