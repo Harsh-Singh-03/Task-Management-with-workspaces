@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { updateListOrder } from "@/actions/List";
 import { updataCardOrder } from "@/actions/Card";
+import { reorder } from "@/lib/utils";
 
 interface list {
     id: string,
@@ -32,16 +33,6 @@ const ListContainer = ({ orgId, boardId, lists }: props) => {
         setOrderedData(lists)
     }, [lists])
 
-    function reorder<T>(list: T[], startIndex: number, endIndex: number) {
-        // Create a shallow copy of the input array
-        const result = Array.from(list);
-        // Remove the element at the startIndex from the copied array and store it in the 'removed' variable
-        const [removed] = result.splice(startIndex, 1);
-        // Insert the removed element at the endIndex in the copied array
-        result.splice(endIndex, 0, removed);
-        // Return the modified array
-        return result;
-    };
     const cardOpen = (id: string) => {
         setCardOpenId(id)
     }

@@ -1,5 +1,5 @@
 "use client"
-import { MoreHorizontal, Trash2, X } from 'lucide-react'
+import { Loader2, MoreHorizontal, Trash2, X } from 'lucide-react'
 import React, { FormEvent, useState } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover'
 import { PopoverClose } from '@radix-ui/react-popover'
@@ -85,8 +85,14 @@ const BoardTopBar = ({ boardId, boardTitle, orgId, isAdmin }: props) => {
                         </PopoverClose>
                         <Separator className="mb-4 bg-gray-300" />
                         <button className="flex cursor-pointer outline-none hover:underline border-none bg-transparent items-center gap-2" disabled={isDeleting} onClick={deleteBoard}>
-                            <Trash2 width={20} height={20} className={`${isDeleting ? 'text-gray-500' : 'text-gray-800'}`} />
-                            <span className={`text-sm font-medium ${isDeleting ? 'text-gray-500': 'text-gray-800'}`} >Delete this board</span>
+                            {isDeleting ? (
+                                <Loader2 width={20} height={20} className='text-gray-500 animate-spin' />
+                            ): (
+                                <Trash2 width={20} height={20} className={`text-gray-800`} />
+                            )}
+                            <span className={`text-sm font-medium ${isDeleting ? 'text-gray-500': 'text-gray-800'}`} >
+                                {isDeleting ? 'Deleting...' : 'Delete this board'}
+                            </span>
                         </button>
                     </PopoverContent>
                 </Popover >

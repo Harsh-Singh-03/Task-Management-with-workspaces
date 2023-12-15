@@ -64,7 +64,7 @@ const TopBar = () => {
                                 <Image src="/assets/select.svg" alt="logo" width={16} height={16} className="object-contain ml-2" />
                             </div>
                         </PopoverTrigger>
-                        <PopoverContent className="mr-4 shadow-xl bg-bg1">
+                        <PopoverContent className="mr-4 shadow-xl bg-slate-100">
                             <div>
                                 <Dialog>
                                     <DialogTrigger className="w-full">

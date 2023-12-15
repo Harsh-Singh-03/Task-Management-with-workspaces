@@ -60,7 +60,9 @@ const CardActivity = ({ data }: props) => {
                             hour12: true, // Use 12-hour clock (true) or 24-hour clock (false)
                           });                          
                         return (
-                           <ActivityItem data={data} formattedDate={formattedDate} />
+                            <div key={data.id}>
+                                <ActivityItem data={data} formattedDate={formattedDate} />
+                            </div>
                         )
                     })}
                 </div>

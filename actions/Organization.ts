@@ -207,8 +207,26 @@ export const deleteOrg = async (orgId: string) => {
         await db.organization.delete({
             where: { id: orgId },
         });
+        revalidatePath(`/app/settings/${orgId}`)
         return { success: true, message: "Workspace Deleted Successfully" }
     } catch (error: any) {
         return { success: false, message: "An error occurred while deleting the workspace." };
+    }
+}
+// get org activity
+export const getAllWorkspaceActivity = async (orgId: string) =>{
+    try {
+        const res = await fetchUser()
+        if (res.success === false || !res.user) return { success: false, message: 'Unauthorized session expired !!' }
+        const { user } = res
+        if (!user.orgsId.includes(orgId)) return { success: false, message: "Invalid request!" }
+        const data = await db.audit.findMany({
+            where: {orgId},
+            orderBy: {createdAt: 'desc'}
+        })
+        if(!data) return {success: false, message: "not found"}
+        return {success: true, message: "found" , data}
+    } catch (error) {
+        return { success: false, message: "Server error try again later !" };
     }
 }

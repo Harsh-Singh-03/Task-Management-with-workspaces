@@ -5,6 +5,7 @@ import { DialogClose } from '@radix-ui/react-dialog'
 import { CreateOrg } from '@/actions/Organization';
 import { useToast } from '../ui/use-toast';
 import { usePathname } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 const CreateCommunity = () => {
     const ref = useRef<HTMLButtonElement | null>(null);
@@ -42,7 +43,12 @@ const CreateCommunity = () => {
         <> 
             <form className={`grid w-full gap-4 ${isLoading && 'opacity-80'}`} onSubmit={(e) => handleSubmit(e)} >
                 <input type="text" value={Credential.name} name="name" className='form-input font-medium' placeholder='Enter workspace name...' onChange={handleChange} required minLength={3} disabled={isLoading} />
-                <button type='submit' className='mt-2 w-full btn' disabled={isLoading}>{isLoading ? "Processing..." : 'Create Workspace'}</button>
+                <button type='submit' className='mt-2 w-full justify-center flex items-center gap-2 btn' disabled={isLoading}>
+                    {isLoading && (
+                        <Loader2 className='w-5 h-5 text-gray-200 animate-spin' />
+                    )}
+                    {isLoading ? "Processing..." : 'Create Workspace'}
+                </button>
             </form>
             <DialogClose asChild>
                 <button className='hidden' ref={ref}>

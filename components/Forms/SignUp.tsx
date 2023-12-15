@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { isEmail } from '@/lib/utils'
 import { useToast } from '../ui/use-toast'
 import axios from "axios"
+import { Loader2 } from 'lucide-react'
 
 const SignUp = () => {
   const session = useSession()
@@ -20,7 +21,7 @@ const SignUp = () => {
     }
   }, [session])
 
-
+  const [isLoad, setIsLoad] = useState(false)
   const [Credential, setCredential] = useState({ email: '', password: "", name: "" })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +45,7 @@ const SignUp = () => {
       return;
     }
     try {
+      setIsLoad(true)
       const { data } = await axios.post('/api/auth/create-account', {
         name: Credential.name,
         email: Credential.email,
@@ -53,17 +55,19 @@ const SignUp = () => {
       if (data.success === true) {
         toast({ title: 'Account created successfully now sign in to access platform' })
         router.replace('/sign-in')
-      } else{
+      } else {
         toast({
           variant: "destructive",
           title: data.message || ''
         })
-      }     
+      }
     } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Server error please try again letter!"
       })
+    } finally {
+      setIsLoad(false)
     }
   }
 
@@ -91,7 +95,12 @@ const SignUp = () => {
             <input type="text" name="name" value={Credential.name} className='form-input' placeholder='Enter you name..' onChange={handleChange} required minLength={3} />
             <input type="email" name="email" value={Credential.email} className='form-input' placeholder='example@gmail.com' onChange={handleChange} required />
             <input type="password" value={Credential.password} name="password" className='form-input' placeholder='password...' onChange={handleChange} required minLength={8} />
-            <button type='submit' className='mt-4 w-full border-none outline-none shadow-md bg-greenshade text-white py-2.5 rounded-sm hover:bg-greenshade2'>Create Account</button>
+            <button type='submit' className='mt-4 w-full border-none outline-none shadow-md bg-greenshade text-white py-2.5 rounded-sm hover:bg-greenshade2 flex justify-center items-center gap-2'>
+              {isLoad && (
+                <Loader2 className='w-5 h-5 text-gray-200 animate-spin' />
+              )}
+              {isLoad ? "Processing..." : 'Create Account'}
+            </button>
           </form>
           <p className='text-gray-500 text-center text-sm'>Already have an account? <Link href='/sign-in' className='text-greenshade font-semibold hover:border-b-2 hover:border-b-greenshade'>Sign In</Link></p>
         </div>

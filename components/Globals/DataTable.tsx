@@ -1,5 +1,5 @@
 "use client";
-import { Info } from 'lucide-react';
+import { Info, Loader2 } from 'lucide-react';
 import React, { FormEvent, useEffect, useState } from 'react';
 import { Popover, PopoverTrigger } from '../ui/popover';
 import { PopoverContent } from '@radix-ui/react-popover';
@@ -33,6 +33,7 @@ const DataTable: React.FC<DataTableProps> = ({ members, isAdmin, adminId, search
     const [pagesize, setPageSize] = useState(Number(pageSize) ? pageSize : 10)
     const [isClear, setIsClear] = useState(false)
     const [isTableLoad, setIsTableLoad] = useState(false)
+    const [isRemoving, setIsRemoving] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
     const {toast} = useToast()
@@ -123,6 +124,7 @@ const DataTable: React.FC<DataTableProps> = ({ members, isAdmin, adminId, search
     }
     const removeMembers = async() => {
         try {
+            setIsRemoving(true)
             setIsTableLoad(true)
             const data = await removeMembersInOrg(orgId, selectedRow)
             if(data.success === true){
@@ -138,6 +140,7 @@ const DataTable: React.FC<DataTableProps> = ({ members, isAdmin, adminId, search
             toast({title: "Some error occured try again", variant:"destructive"})
         }finally{
             setIsTableLoad(false)
+            setIsRemoving(false)
         }
     }
 
@@ -246,7 +249,12 @@ const DataTable: React.FC<DataTableProps> = ({ members, isAdmin, adminId, search
             {selectedRow.length > 0 && isAdmin === true && (
                 <div className='fixed bottom-10 w-full grid place-items-center left-0'>
                     <div className='max-w-max animate-in rounded-md p-4 border border-gray-300 z-50 bg-white'>
-                        <button className='btn py-2 px-6 bg-red-500 hover:bg-red-500/80' disabled={isTableLoad} onClick={removeMembers}>Remove Selected Member</button>
+                        <button className='btn flex justify-center items-center gap-2 py-2 px-6 bg-red-500 hover:bg-red-500/80' disabled={isTableLoad} onClick={removeMembers}>
+                            {isRemoving && (
+                                <Loader2 className="w-5 h-5 animate-spin text-gray-200"  />
+                            )}
+                            {isRemoving ? 'Removing...' : 'Remove Selected Member'}
+                        </button>
                     </div>
                 </div>
             )}

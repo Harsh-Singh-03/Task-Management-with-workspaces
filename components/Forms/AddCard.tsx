@@ -1,5 +1,5 @@
 "use client"
-import { Plus, X } from "lucide-react"
+import { Loader2, Plus, X } from "lucide-react"
 import { FormEvent, useEffect, useState } from "react"
 import { useToast } from "../ui/use-toast"
 import { createCardInList } from "@/actions/Card"
@@ -21,7 +21,7 @@ const AddCard = ({ boardId, orgId, listId, isOpen, cardOpen }: props) => {
   useEffect(() => {
     setIsForm(isOpen)
   }, [isOpen])
-  
+
 
   const createCard = async (e: FormEvent) => {
     e.preventDefault()
@@ -30,15 +30,15 @@ const AddCard = ({ boardId, orgId, listId, isOpen, cardOpen }: props) => {
         setIsLoad(true)
         const data = await createCardInList(orgId, boardId, listId, title)
         if (data.success) {
-           toast({title: data.message})
-           setTitle("")
-           setIsForm(false)
+          toast({ title: data.message })
+          setTitle("")
+          setIsForm(false)
         } else {
-          toast({title: data.message, variant: "destructive"})
+          toast({ title: data.message, variant: "destructive" })
         }
       } catch (error) {
-        toast({title: "server error try again later", variant: "destructive"})
-      } finally{
+        toast({ title: "server error try again later", variant: "destructive" })
+      } finally {
         setIsLoad(false)
         cardOpen('none')
       }
@@ -56,8 +56,13 @@ const AddCard = ({ boardId, orgId, listId, isOpen, cardOpen }: props) => {
           <input type="text" placeholder="Enter card title.." value={title} className={`input-2 w-full ${isLoad ? 'border-gray-600 text-gray-600' : 'border-black  text-black'} border-2`}
             onChange={(e) => setTitle(e.target.value)} required minLength={3} disabled={isLoad} />
           <div className="flex items-center gap-4">
-            <button type="submit" className={`btn3 px-4 ${isLoad && 'bg-gray-600'}`} disabled={isLoad} >Save</button>
-            <X className="cursor-pointer" width={24} height={24} color="#000" onClick={() => {setIsForm(false); cardOpen('none')}} />
+            <button type="submit" className={`btn3 flex justify-center items-center gap-2 px-4 ${isLoad && 'bg-gray-600'}`} disabled={isLoad} >
+              {isLoad && (
+                <Loader2 className='w-5 h-5 text-gray-200 animate-spin' />
+              )}
+              {isLoad ? "Saving..." : 'Save'}
+            </button>
+            <X className="cursor-pointer" width={24} height={24} color="#000" onClick={() => { setIsForm(false); cardOpen('none') }} />
           </div>
         </form>
       )}

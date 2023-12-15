@@ -14,7 +14,7 @@ const page = async ({ params }: { params: { orgId: string, boardId: string } }) 
 
   return (
     <div className="relative w-full h-full min-h-screen overflow-y-hidden">
-      <img src={data.board.imageFullUrl} alt="board-banner" width={0} height={0} className="fixed top-0 left-0 w-screen h-screen object-cover" style={{zIndex: -1}} />
+      <Image src={data.board.imageFullUrl} alt="board-banner" fill className="fixed top-0 left-0 w-screen h-screen object-cover" style={{zIndex: -1}} />
       <BoardTopBar boardId={data.board.id} boardTitle= {data.board.title} isAdmin={data.isAdmin} orgId={params.orgId}/>
       <ListContainer orgId={params.orgId} boardId={params.boardId} lists={data.lists} />
     </div>

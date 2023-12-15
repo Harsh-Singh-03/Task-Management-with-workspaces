@@ -3,7 +3,7 @@
 import { CopyCard, deleteCardFromList, updateCardDesc, updateCardLabel, updateCardTitle } from "@/actions/Card"
 import { DialogClose } from "@/components/ui/dialog"
 import { useToast } from "@/components/ui/use-toast"
-import { Copy, Layout, Text, Trash, X } from "lucide-react"
+import { Copy, Layout, Loader2, Text, Trash, X } from "lucide-react"
 import { useParams } from "next/navigation"
 import { FormEvent, useEffect, useRef, useState } from "react"
 import CardActivity from "./CardActivity"
@@ -49,7 +49,6 @@ const CardDetails = ({ data, listId, listTitle }: props) => {
         toast({ title: "server error try again later", variant: "destructive" })
       } finally {
         setIsLoad({ title: false, desc: false, delete: false, copy: false })
-        setIsDescEdit(false)
       }
     }
   }
@@ -69,6 +68,7 @@ const CardDetails = ({ data, listId, listTitle }: props) => {
         toast({ title: "server error try again later", variant: "destructive" })
       } finally {
         setIsLoad({ title: false, desc: false, delete: false, copy: false })
+        setIsDescEdit(false)
       }
     }
   }
@@ -169,7 +169,12 @@ const CardDetails = ({ data, listId, listTitle }: props) => {
                   <input type="color" className="rounded cursor-pointer" required disabled={isLabelLoad}
                     onChange={(e) => setLabelData({ label: labelData.label, labelColor: e.target.value })} />
                 </div>
-                <button type="submit" className={`btn3 w-full ${isLabelLoad && 'bg-gray-500 text-gray-800'}`} disabled={isLabelLoad} >Save</button>
+                <button type="submit" className={`btn3 flex items-center gap-2 justify-center w-full ${isLabelLoad && 'bg-gray-500 text-gray-800'}`} disabled={isLabelLoad} >
+                  {isLabelLoad && (
+                    <Loader2 width={20} height={20} className="text-gray-200 animate-spin" />
+                  )}
+                  {isLabelLoad ? 'Saving..' : 'Save'}
+                </button>
               </form>
             </PopoverContent>
           </Popover>
@@ -187,7 +192,12 @@ const CardDetails = ({ data, listId, listTitle }: props) => {
           <form className="mt-2 ml-8" onSubmit={updataDesc}>
             <textarea placeholder="Add more details.." rows={3} value={Desc} onChange={(e) => { setDesc(e.target.value); setIsDescEdit(true) }} className={`w-full bg-gray-100 ${isLoad.desc ? 'text-gray-600' : 'text-black'} border-none outline-none text-base font-medium placeholder:text-gray-800 rounded py-2 px-3`} required minLength={8} disabled={isLoad.desc} />
             {isDescEdit && data.description !== Desc && (
-              <button type="submit" className={`${isLoad.desc ? 'bg-gray-600' : 'bg-black'} btn3 px-4 mt-2`} >Save</button>
+              <button type="submit" className={`${isLoad.desc ? 'bg-gray-600' : 'bg-black'} btn3 flex gap-2 items-center px-4 mt-2`} >
+                  {isLoad.desc && (
+                    <Loader2 width={20} height={20} className="text-gray-200 animate-spin" />
+                  )}
+                  {isLoad.desc ? 'Saving..' : 'Save'}
+              </button>
             )}
           </form>
         </div>
@@ -196,12 +206,24 @@ const CardDetails = ({ data, listId, listTitle }: props) => {
           <h4 className="text-base md:text-lg text-black font-medium">Action</h4>
           <div className="w-full flex md:grid md:w-auto gap-3 md:gap-2">
             <button className="flex-1 md:flex-none flex gap-2 md:min-w-[160px] bg-gray-100 hover:bg-gray-100/80 items-center px-4 py-2.5 rounded" disabled={isLoad.copy} onClick={copyCard}>
-              <Copy className={`${isLoad.copy ? 'text-gray-500' : 'text-black'} w-4 h-4`} />
-              <span className={`${isLoad.copy ? 'text-gray-500' : 'text-black'} font-medium text-sm`}>Copy</span>
+              {isLoad.copy ? (
+                 <Loader2 width={16} height={16} className="text-gray-500 animate-spin" />
+              ): (
+                <Copy className={`text-black w-4 h-4`} />
+              )}
+              <span className={`${isLoad.copy ? 'text-gray-500' : 'text-black'} font-medium text-sm`}>
+                {isLoad.copy ? 'Coping..' : 'Copy'}
+              </span>
             </button>
             <button className="flex-1 md:flex-none flex gap-2 md:min-w-[160px] bg-gray-100 hover:bg-gray-100/80 items-center px-4 py-2.5 rounded" onClick={deleteCard} disabled={isLoad.delete}>
-              <Trash className={`${isLoad.delete ? 'text-gray-500' : 'text-black'} w-4 h-4`} />
-              <span className={`${isLoad.delete ? 'text-gray-500' : 'text-black'} font-medium text-sm`}>Delete</span>
+            {isLoad.delete ? (
+                 <Loader2 width={16} height={16} className="text-gray-500 animate-spin" />
+              ): (
+                <Trash className={`text-black w-4 h-4`} />
+              )}
+              <span className={`${isLoad.delete ? 'text-gray-500' : 'text-black'} font-medium text-sm`}>
+               {isLoad.delete ? 'Deleting..' : 'Delete'}
+              </span>
             </button>
 
           </div>

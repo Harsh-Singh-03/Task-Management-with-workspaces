@@ -13,19 +13,19 @@ import { useToast } from "../ui/use-toast";
 import { createBoardInWorkspace } from "@/actions/Board";
 import { DialogClose } from "../ui/dialog";
 import Loading from "../ui/Loading";
-interface props{
+interface props {
     orgId: string
 }
-const CreateBoard = ({orgId}: props) => {
+const CreateBoard = ({ orgId }: props) => {
 
     const { pending } = useFormStatus();
     const [isLoading, setIsLoading] = useState(false);
     const [isFormLoading, setIsFormLoading] = useState(false);
     const [images, setImages] = useState<Array<Record<string, any>>>(defaultImages);
-    const [selectedImage, setSelectedImage] = useState({imageId: '', imageThumbUrl: '', imageFullUrl:'', imageUserName: '', imageLinkHTML: ''});
+    const [selectedImage, setSelectedImage] = useState({ imageId: '', imageThumbUrl: '', imageFullUrl: '', imageUserName: '', imageLinkHTML: '' });
     const [title, setTitle] = useState("")
     const pathname = usePathname()
-    const {toast} = useToast()
+    const { toast } = useToast()
     const ref = useRef<HTMLButtonElement | null>(null);
 
     const fetchImages = async () => {
@@ -52,25 +52,25 @@ const CreateBoard = ({orgId}: props) => {
     const createBoard = async (e: FormEvent) => {
         e.preventDefault()
         try {
-            if(!selectedImage || !selectedImage.imageId || selectedImage.imageId === '') {
-                toast({title: 'Please select a board image!!', variant: "destructive"})
+            if (!selectedImage || !selectedImage.imageId || selectedImage.imageId === '') {
+                toast({ title: 'Please select a board image!!', variant: "destructive" })
                 return
             }
             setIsFormLoading(true)
             const data = await createBoardInWorkspace(orgId, title, selectedImage, pathname)
-            if(data.success){
+            if (data.success) {
                 const buttonRef = ref.current as HTMLButtonElement | null;
                 if (buttonRef) {
                     buttonRef.click();
                 }
-                toast({title: data.message})
-            }else{
-                toast({title: data.message, variant: "destructive"})
+                toast({ title: data.message })
+            } else {
+                toast({ title: data.message, variant: "destructive" })
             }
         } catch (error) {
             console.log(error)
-            toast({title: "Some error occured try again!", variant: "destructive"})
-        }finally{
+            toast({ title: "Some error occured try again!", variant: "destructive" })
+        } finally {
             setIsFormLoading(false)
         }
     }
@@ -88,7 +88,7 @@ const CreateBoard = ({orgId}: props) => {
                             )}
                             onClick={() => {
                                 if (pending) return;
-                                setSelectedImage({imageId: image.id, imageFullUrl: image.urls.full, imageThumbUrl: image.urls.thumb,imageLinkHTML: image.links.html,imageUserName: image.user.name});
+                                setSelectedImage({ imageId: image.id, imageFullUrl: image.urls.full, imageThumbUrl: image.urls.thumb, imageLinkHTML: image.links.html, imageUserName: image.user.name });
                             }}
                         >
                             <Image
@@ -113,7 +113,7 @@ const CreateBoard = ({orgId}: props) => {
                         </div>
                     ))}
                 </div>
-            ): <div className="my-6 grid place-items-center w-full"><Loading/></div>}
+            ) : <div className="my-6 grid place-items-center w-full"><Loading /></div>}
             <div className="grid place-items-end">
                 <button className="btn3 px-2" onClick={fetchImages}>
                     <RefreshCcw className="cursor-pointer" width={20} height={20} color="#fff" />
@@ -121,7 +121,12 @@ const CreateBoard = ({orgId}: props) => {
             </div>
             <form className={`grid w-full gap-4 ${isFormLoading && 'opacity-80'}`} onSubmit={(e) => createBoard(e)} >
                 <input type="text" value={title} name="name" className='form-input font-medium' placeholder='Enter board title...' onChange={(e) => setTitle(e.target.value)} required minLength={3} disabled={isFormLoading} />
-                <button type='submit' className='mt-2 w-full btn' disabled={isFormLoading || isLoading ? true : false}>{isFormLoading ? "Processing..." : 'Create Board'}</button>
+                <button type='submit' className='mt-2 flex justify-center items-center gap-2 w-full btn' disabled={isFormLoading || isLoading ? true : false}>
+                    {isFormLoading && (
+                        <Loader2 className='w-5 h-5 text-gray-200 animate-spin' />
+                    )}
+                    {isFormLoading ? "Processing..." : 'Create board'}
+                </button>
             </form>
             <DialogClose asChild>
                 <button className='hidden' ref={ref}>

@@ -39,3 +39,14 @@ export function getContrastTextColor(hexColor: string) {
   // Use white text for dark backgrounds and black text for light backgrounds
   return luminance > 0.5 ? '#000000' : '#ffffff';
 }
+
+export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
+  // Create a shallow copy of the input array
+  const result = Array.from(list);
+  // Remove the element at the startIndex from the copied array and store it in the 'removed' variable
+  const [removed] = result.splice(startIndex, 1);
+  // Insert the removed element at the endIndex in the copied array
+  result.splice(endIndex, 0, removed);
+  // Return the modified array
+  return result;
+};

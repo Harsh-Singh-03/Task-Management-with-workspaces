@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/components/ui/use-toast"
 import { PopoverClose } from "@radix-ui/react-popover"
-import { Copy, CopyPlus, MoreHorizontal, PlusSquare, Trash2, X } from "lucide-react"
+import { Copy, CopyPlus, Loader2, MoreHorizontal, PlusSquare, Trash2, X } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { FormEvent, useEffect, useRef, useState } from "react"
 
@@ -28,7 +28,7 @@ const ListHeader = ({ listTitle, id, boardId, orgId, cardOpen }: props) => {
   useEffect(() => {
     setTitle(listTitle)
   }, [listTitle])
-  
+
   const updataTitle = async (e: FormEvent) => {
     e.preventDefault()
     if (title !== listTitle && title.length > 2) {
@@ -113,18 +113,30 @@ const ListHeader = ({ listTitle, id, boardId, orgId, cardOpen }: props) => {
             </button>
           </PopoverClose>
           <div className="flex items-center gap-3 mb-4 hover:underline cursor-pointer" onClick={openUpCard}>
-            <PlusSquare width={20} height={20} className="text-gray-800"/>
+            <PlusSquare width={20} height={20} className="text-gray-800" />
             <span className={`text-sm font-medium text-gray-800`} >Add card</span>
           </div>
           <div className="flex items-center gap-3 mb-4 hover:underline cursor-pointer" onClick={copy}>
-            <Copy width={20} height={20} className={`${isCoping ? 'text-gray-500' : 'text-gray-800'}`} />
-            <span className={`text-sm font-medium ${isCoping ? 'text-gray-500' : 'text-gray-800'}`} >Copy list</span>
+            {isCoping ? (
+              <Loader2 width={20} height={20} className='text-gray-500 animate-spin' />
+            ) : (
+              <Copy width={20} height={20} className='text-gray-800' />
+            )}
+            <span className={`text-sm font-medium ${isCoping ? 'text-gray-500' : 'text-gray-800'}`} >
+              {isCoping ? 'Coping...' : 'Copy List'}
+            </span>
           </div>
           <Separator className="mb-4 bg-gray-300" />
           <button className="flex cursor-pointer outline-none border-none bg-transparent items-center gap-2 hover:underline"
             disabled={isDeleting} onClick={deleteList} >
-            <Trash2 width={20} height={20} className={`${isDeleting ? 'text-gray-600' : 'text-gray-800'}`} />
-            <span className={`text-sm font-medium ${isDeleting ? 'text-gray-600' : 'text-gray-800'}`} >Delete this list</span>
+            {isDeleting ? (
+              <Loader2 width={20} height={20} className='text-gray-500 animate-spin' />
+            ) : (
+              <Trash2 width={20} height={20} className='text-gray-800' />
+            )}
+            <span className={`text-sm font-medium ${isDeleting ? 'text-gray-600' : 'text-gray-800'}`} >
+              {isDeleting ? 'Deleting...' : 'Delete this list'}
+            </span>
           </button>
         </PopoverContent>
       </Popover>

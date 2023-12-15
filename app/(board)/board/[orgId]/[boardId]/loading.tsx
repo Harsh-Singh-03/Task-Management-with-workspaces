@@ -1,7 +1,10 @@
+import Loading from "@/components/ui/Loading"
 
 const loading = () => {
   return (
-    <div>loading</div>
+    <div className="w-screen h-screen grid place-items-center">
+      <Loading />
+    </div>
   )
 }
 

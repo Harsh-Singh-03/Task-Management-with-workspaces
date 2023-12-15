@@ -1,13 +1,14 @@
 "use client"
 import { useState } from 'react'
 import { Separator } from '../ui/separator'
-import { Plus, Trash2 } from 'lucide-react'
+import { Loader2, Plus, Trash2 } from 'lucide-react'
 import { useToast } from '../ui/use-toast'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { deleteOrg, updateOrg } from '@/actions/Organization'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog'
 import AddMembers from '../Forms/AddMember'
+import { Progress } from "@/components/ui/progress"
 
 interface props {
   name: string,
@@ -16,16 +17,15 @@ interface props {
   isSettings?: boolean
 }
 const WorkspaceHead = ({ name, id, isAdmin, isSettings }: props) => {
-  const [isEdit, setIsEdit] = useState(false)
   const [isLoad, setIsLoad] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isProgress, setIsProgress] = useState(0)
   const [newName, setNewName] = useState(name)
   const { toast } = useToast()
   const pathname = usePathname()
-  const router = useRouter()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    setIsEdit(false)
     if (newName !== name && isAdmin === true) {
       try {
         setIsLoad(true)
@@ -49,18 +49,20 @@ const WorkspaceHead = ({ name, id, isAdmin, isSettings }: props) => {
 
   const deleteWorspace = async () => {
     try {
-      setIsLoad(true)
+      setIsProgress(30)
+      setIsDeleting(true)
       const data = await deleteOrg(id)
+      setIsProgress(75)
       if (data.success) {
         toast({ title: `${name} deleted successfully` })
-        router.replace("/app")
       } else {
         toast({ title: data.message, variant: 'destructive' })
       }
     } catch (error) {
       toast({ title: 'Server error try again later!', variant: "destructive" })
     } finally {
-      setIsLoad(false)
+      setIsDeleting(false)
+      setIsProgress(100)
     }
   }
   return (
@@ -117,6 +119,18 @@ const WorkspaceHead = ({ name, id, isAdmin, isSettings }: props) => {
         )}
       </div>
       <Separator className='my-4 md:my-6' />
+      {isDeleting && (
+        <>
+          <div className='fixed top-0 left-0 z-50 w-screen h-screen bg-black/80 flex flex-col justify-center items-center'>
+            <div className='flex justify-center items-center gap-4 md:gap-6 mb-4 md:mb-6'>
+              <Loader2 className='w-10 h-10 animate-spin text-slate-100' />
+              <p className='text-slate-100 text-base font-semibold text-center'>Deleting {name}....</p>
+            </div>
+            <Progress className='w-full min-w-[280px] max-w-xs ' value={isProgress} />
+          </div>
+        </>
+        
+      )}
     </div>
   )
 }
