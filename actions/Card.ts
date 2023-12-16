@@ -261,7 +261,8 @@ export const getCardActivity = async (id: string, orgId: string) => {
         if (!user.orgsId.includes(orgId)) return { success: false, message: "Invalid request!" }
 
         const data = await db.audit.findMany({
-            where: { orgId, entityId: id, entityType: 'CARD' }
+            where: { orgId, entityId: id, entityType: 'CARD' },
+            orderBy: {createdAt: 'desc'}
         })
         if (!data) return { success: false, message: 'not found' }
         return { success: true, message: 'Data found', data }
