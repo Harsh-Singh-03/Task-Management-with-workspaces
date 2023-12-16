@@ -18,7 +18,7 @@ const TopBar = () => {
     const session = useSession()
 
     return (
-        <header className="site-header bg-bg1 z-10">
+        <header className="site-header bg-bg1/70 z-10">
             <div className="flex items-center gap-4">
                 <Link href={pathname === '/app' || pathname === '/' ? '/' : "/app"} className="flex items-center">
                     <Image src="/assets/logo.svg" alt="logo" className="object-contain" width={48} height={48} />

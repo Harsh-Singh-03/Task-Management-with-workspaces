@@ -11,14 +11,14 @@ This is a Full Stack Next 14 Task Management  app with filled with features.
 - Members Data Table with filter & pagination for good performace
 - Board creation
 - Unsplash API for random beautiful cover images
-- Activity log for entire Workspaces (TODO)
+- Activity log for entire Workspaces 
 - Board rename and delete
 - List creation
 - List rename, delete, drag & drop reorder and copy
 - Card creation
 - Card description, rename, label , delete, drag & drop reorder and copy
 - Card activity log
-- Landing page (TODO)
+- Landing page 
 - Card activity log
 - Prisma ORM
 - Mongo DB

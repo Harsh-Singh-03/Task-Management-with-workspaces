@@ -51,29 +51,29 @@ const LeftSideBar = ({ orgs, mobile }: props) => {
                 {orgs.map((org: { name: string, id: string, adminId: string }, index: number) => {
                     return (
                         <AccordionItem value={`item-${index}`} key={index}>
-                            <AccordionTrigger className={pathname.split('/')[3] === org.id && !open.includes(`item-${index}`) ? "bg-green-200/30 rounded-md" : "hover:bg-gray-100"}>
+                            <AccordionTrigger className={pathname.split('/')[3] === org.id && !open.includes(`item-${index}`) ? "bg-greenshade2/10 rounded-md" : "hover:bg-gray-100"}>
                                 <div className="flex items-center gap-4">
                                     <span className="rounded-full w-8 h-8 text-white bg-greenshade2 text-sm font-semibold grid place-items-center">{org.name?.slice(0, 1).toUpperCase()}</span>
-                                    <p className={`text-sm md:text-base font-semibold capitalize ${pathname.split('/')[3] === org.id && !(open as string[]).includes(`item-${index}`) ? "text-green-800" : "text-gray-800"}`}>{org.name}</p>
+                                    <p className={`text-sm md:text-base font-semibold capitalize ${pathname.split('/')[3] === org.id && !(open as string[]).includes(`item-${index}`) ? "text-greenshade" : "text-gray-800"}`}>{org.name}</p>
 
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent className="">
-                                <Link href={`/app/workspaces/${org.id}`} className={`flex gap-4 rounded-md items-center px-6 py-3 cursor-pointer ${pathname === `/app/workspaces/${org.id}` ? 'bg-green-200/30' : 'hover:bg-gray-100'}`}>
+                                <Link href={`/app/workspaces/${org.id}`} className={`flex gap-4 rounded-md items-center px-6 py-3 cursor-pointer ${pathname === `/app/workspaces/${org.id}` ? 'bg-greenshade2/10' : 'hover:bg-gray-100'}`}>
                                     <Layout className="w-6 h-6" color={pathname === `/app/workspaces/${org.id}` ? "#86A789" : "#808080"} />
-                                    <p className={`text-sm md:text-base font-medium ${pathname === `/app/workspaces/${org.id}` && 'text-green-800'}`}>Boards</p>
+                                    <p className={`text-sm md:text-base font-medium ${pathname === `/app/workspaces/${org.id}` && 'text-greenshade'}`}>Boards</p>
                                 </Link>
-                                <Link href={`/app/activity/${org.id}`} className={`flex gap-4 items-center px-6 py-3 cursor-pointer ${pathname === `/app/activity/${org.id}` ? 'bg-green-200/30' : 'hover:bg-gray-100'}`}>
+                                <Link href={`/app/activity/${org.id}`} className={`flex gap-4 items-center px-6 py-3 cursor-pointer ${pathname === `/app/activity/${org.id}` ? 'bg-greenshade2/10' : 'hover:bg-gray-100'}`}>
                                     <Activity className="w-6 h-6" color={pathname === `/app/activity/${org.id}` ? "#86A789" : "#808080"} />
-                                    <p className={`text-sm md:text-base font-medium ${pathname === `/app/activity/${org.id}` && 'text-green-800'}`}>Actvity</p>
+                                    <p className={`text-sm md:text-base font-medium ${pathname === `/app/activity/${org.id}` && 'text-greenshade'}`}>Actvity</p>
                                 </Link>
-                                {/* <Link  href={`/app/payment/${org.id}`} className={`flex gap-4 items-center px-6 py-3 cursor-pointer ${pathname === `/app/payment/${org.id}` ? 'bg-green-200/30' : 'hover:bg-gray-100'}`}>
+                                {/* <Link  href={`/app/payment/${org.id}`} className={`flex gap-4 items-center px-6 py-3 cursor-pointer ${pathname === `/app/payment/${org.id}` ? 'bg-greenshade2/10' : 'hover:bg-gray-100'}`}>
                                     <CreditCard className="w-6 h-6" color={pathname === `/app/payment/${org.id}` ? "#86A789" : "#808080"} />
-                                    <p className={`text-sm md:text-base font-medium ${pathname === `/app/payment/${org.id}` && 'text-green-800'}`}>Payment</p>
+                                    <p className={`text-sm md:text-base font-medium ${pathname === `/app/payment/${org.id}` && 'text-greenshade'}`}>Payment</p>
                                 </Link> */}
-                                <Link href={`/app/settings/${org.id}`} className={`flex gap-4 items-center px-6 py-3 cursor-pointer ${pathname === `/app/settings/${org.id}` ? 'bg-green-200/30' : 'hover:bg-gray-100'}`}>
+                                <Link href={`/app/settings/${org.id}`} className={`flex gap-4 items-center px-6 py-3 cursor-pointer ${pathname === `/app/settings/${org.id}` ? 'bg-greenshade2/10' : 'hover:bg-gray-100'}`}>
                                     <Settings className="w-6 h-6" color={pathname === `/app/settings/${org.id}` ? "#86A789" : "#808080"} />
-                                    <p className={`text-sm md:text-base font-medium ${pathname === `/app/settings/${org.id}` && 'text-green-800'}`}>Settings</p>
+                                    <p className={`text-sm md:text-base font-medium ${pathname === `/app/settings/${org.id}` && 'text-greenshade'}`}>Settings</p>
                                 </Link>
                             </AccordionContent>
                         </AccordionItem>
