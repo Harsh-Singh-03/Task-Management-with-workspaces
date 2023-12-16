@@ -14,11 +14,11 @@ export default async function  Home() {
         <div className="flex gap-2 justify-center items-center">
           {session && session.user ? (
             <>
-            <Link href='/app' className="btn px-6">GO TO DASHBOARD</Link>
+            <Link href='/app' className="btn bg-white/40 px-6">GO TO DASHBOARD</Link>
             </>
           ): (
             <>
-            <Link href='/sign-in' className="btn2 px-6 text-white hover:text-black">LOGIN</Link>
+            <Link href='/sign-in' className="btn2  bg-white/40 px-6 text-white hover:text-black">LOGIN</Link>
             <Link href='/sign-up' className="btn px-6">GET STARTED FOR FREE</Link>
             </>
           )}
