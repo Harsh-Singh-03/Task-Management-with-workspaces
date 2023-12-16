@@ -51,7 +51,7 @@ const CardActivity = ({ data }: props) => {
             ) : (
                 <div className="mt-2  md:ml-6 grid gap-3">
                     {activity && activity.length > 0 && activity.map((data) => {
-                        const formattedDate = data.createdAt.toLocaleString('en-US', {
+                        const formattedDate = data.createdAt.toLocaleString('en-IN', {
                             month: 'short', // Short month name (e.g., Jan)
                             day: 'numeric', // Day of the month (e.g., 1)
                             year: 'numeric', // Full year (e.g., 2021)

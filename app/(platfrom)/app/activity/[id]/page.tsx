@@ -19,7 +19,7 @@ const page = async ({ params }: { params: { id: string } }) => {
       </div>
       <div className="w-full grid gap-3 mb-6">
         {result.data.length > 0 ? result.data.map((data) => {
-          const formattedDate = data.createdAt.toLocaleString('en-US', {
+          const formattedDate = data.createdAt.toLocaleString('en-IN', {
             month: 'short', // Short month name (e.g., Jan)
             day: 'numeric', // Day of the month (e.g., 1)
             year: 'numeric', // Full year (e.g., 2021)
