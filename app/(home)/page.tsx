@@ -18,8 +18,8 @@ export default async function  Home() {
             </>
           ): (
             <>
-            <Link href='/sign-in' className="btn2  bg-white/40 px-6 text-white hover:text-black">LOGIN</Link>
-            <Link href='/sign-up' className="btn px-6">GET STARTED FOR FREE</Link>
+            <Link href='/sign-in' className="btn2  px-6 text-white hover:text-black">LOGIN</Link>
+            <Link href='/sign-up' className="btn px-6 bg-white/40">GET STARTED FOR FREE</Link>
             </>
           )}
         </div>
