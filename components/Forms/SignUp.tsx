@@ -51,10 +51,18 @@ const SignUp = () => {
         email: Credential.email,
         password: Credential.password
       })
-      console.log(data)
       if (data.success === true) {
-        toast({ title: 'Account created successfully now sign in to access platform' })
-        router.replace('/sign-in')
+        toast({ title: 'Account created successfully !' })
+        const res = await signIn("Credentials", {
+          redirect: false,
+          email: Credential.email,
+          password: Credential.password
+        })
+        if(res?.ok){
+          router.replace('/')
+        }else{
+          router.replace('/sign-in')
+        }
       } else {
         toast({
           variant: "destructive",

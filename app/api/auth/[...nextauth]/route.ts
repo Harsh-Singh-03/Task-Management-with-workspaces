@@ -66,7 +66,8 @@ export const authOptions = {
                                 name: user.name,
                                 email: user.email,
                                 password: "",
-                                provider: account.provider
+                                provider: account.provider,
+                                isEmailVerified: true
                             }
                         })
                         return true

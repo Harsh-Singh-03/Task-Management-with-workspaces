@@ -1,6 +1,5 @@
 import AuthProvider from '@/lib/SessionProvider'
 import type { Metadata } from 'next'
-import { getServerSession } from 'next-auth'
 import { Inter } from 'next/font/google'
 import { Toaster } from "@/components/ui/toaster"
 import '../globals.css'
@@ -17,13 +16,12 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode
 }) {
-    const session = await getServerSession()
     return (
         <html lang="en">
             <body className={inter.className}>
                 <div className="min-h-screen">
                     <Toaster/>
-                    <AuthProvider session={session}>
+                    <AuthProvider>
                         {children}
                     </AuthProvider>
                 </div>

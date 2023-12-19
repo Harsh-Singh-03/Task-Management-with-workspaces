@@ -11,11 +11,35 @@ import { signOut } from 'next-auth/react'
 import CreateCommunity from "../Forms/CreateCommunity"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Skeleton } from "../ui/skeleton"
+import { resetPassRequest } from "@/actions/User"
+import { useToast } from "../ui/use-toast"
+import { Loader2 } from "lucide-react"
 
 const TopBar = () => {
     const pathname = usePathname()
     const [open, setOpen] = useState(false)
     const session = useSession()
+    const [isLoad, setIsLoad] = useState(false)
+    const {toast} = useToast()
+
+    const SubmitRequest = async () => {
+        try {
+            setIsLoad(true)
+            const res = await resetPassRequest(session.data?.user?.email || "")
+            if (res && res.success) {
+                toast({ title: res.message })
+            } else {
+                toast({ title: res.message, variant: 'destructive' })
+            }
+        } catch (error: any) {
+            toast({
+                variant: "destructive",
+                title: "Server error please try again letter!"
+            })
+        } finally {
+            setIsLoad(false)
+        }
+    }
 
     return (
         <header className="site-header bg-bg1/70 z-10">
@@ -79,9 +103,13 @@ const TopBar = () => {
                                 </Dialog>
 
                                 <hr className="my-2" />
-                                <div className="flex gap-3 items-center cursor-pointer hover:bg-gray-100 p-2 rounded">
-                                    <Image src='/assets/setting.svg' width={20} height={20} alt="logo" className="object-contain" />
-                                    <p className="text-gray-600 text-sm font-medium tracking-wide">Manage Account</p>
+                                <div onClick={SubmitRequest} className="flex gap-3 items-center cursor-pointer hover:bg-gray-100 p-2 rounded">
+                                    {isLoad ? (
+                                        <Loader2 className="w-5 h-5 animate-spin text-gray-600" />
+                                    ) : (
+                                        <Image src='/assets/setting.svg' width={20} height={20} alt="logo" className="object-contain" />
+                                    )}
+                                    <p className="text-gray-600 text-sm font-medium tracking-wide">{isLoad ? 'processing..' :'Reset Password'}</p>
                                 </div>
                                 <div className="flex gap-3 items-center cursor-pointer hover:bg-red-100 p-2 rounded" onClick={() => signOut()}>
                                     <Image src='/assets/logout.svg' width={20} height={20} alt="logo" className="object-contain" />

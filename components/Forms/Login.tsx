@@ -100,6 +100,10 @@ const Login = () => {
                             {isLoad ? "Processing..." : 'SIGN IN'}
                         </button>
                     </form>
+                    <div className='flex justify-end'>
+                        <Link href='/reset-password-request' className='text-greenshade font-semibold hover:border-b-2 hover:border-b-greenshade inline'>Forget password?</Link>
+
+                    </div>
                     <p className='text-gray-500 text-center text-sm'>Don't have an account? <Link href='/sign-up' className='text-greenshade font-semibold hover:border-b-2 hover:border-b-greenshade'>Create Account</Link></p>
                 </div>
             ) : <Loading />}

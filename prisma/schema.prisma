@@ -11,13 +11,16 @@ generator client {
 }
 
 model User {
-  id           String         @id @default(auto()) @map("_id") @db.ObjectId
-  email        String         @unique
-  name         String
-  password     String?
-  provider     String?
-  Organization Organization[] @relation(fields: [orgsId], references: [id])
-  orgsId       String[]       @db.ObjectId
+  id                     String         @id @default(auto()) @map("_id") @db.ObjectId
+  email                  String         @unique
+  name                   String
+  password               String?
+  provider               String?
+  isEmailVerified        Boolean        @default(false)
+  emailVerificationToken String?
+  resetPasswordToken     String?
+  Organization           Organization[] @relation(fields: [orgsId], references: [id])
+  orgsId                 String[]       @db.ObjectId
 }
 
 model Organization {

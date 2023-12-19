@@ -214,7 +214,7 @@ export const deleteOrg = async (orgId: string) => {
     }
 }
 // get org activity
-export const getAllWorkspaceActivity = async (orgId: string) =>{
+export const getAllWorkspaceActivity = async (orgId: string, page?: number, pageSize?: number) =>{
     try {
         const res = await fetchUser()
         if (res.success === false || !res.user) return { success: false, message: 'Unauthorized session expired !!' }
@@ -222,7 +222,9 @@ export const getAllWorkspaceActivity = async (orgId: string) =>{
         if (!user.orgsId.includes(orgId)) return { success: false, message: "Invalid request!" }
         const data = await db.audit.findMany({
             where: {orgId},
-            orderBy: {createdAt: 'desc'}
+            orderBy: {createdAt: 'desc'},
+            take: pageSize || 10, 
+            skip: page ? (page - 1) * (pageSize || 10) : 0, 
         })
         if(!data) return {success: false, message: "not found"}
         return {success: true, message: "found" , data}
